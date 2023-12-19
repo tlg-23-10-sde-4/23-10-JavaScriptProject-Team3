@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nutrition Page</title>
     <link rel="stylesheet" href="./style.css" />
+
+    <!---chartjs script.js-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0"></script>
+    <!-- <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"
+      integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script> -->
+    <!--nutrition page script-->
     <script src="./script.js" async defer></script>
   </head>
   <body>
@@ -12,23 +22,32 @@
       <h1>My Fitness App</h1>
       <h1>Nutrition</h1>
     </header>
+
+    <!---Start-Side: Grand Calorie Intake Container-->
+
+    <!--requires canvas creation to be used-->
     <div>
-      Graph Container
-      <div>Apple Graph</div>
-      <div>
-        Pie Chart
-        <button type="button">Graph Menu Button</button>
-      </div>
-      <button type="button">Graph Menu Button</button>
-      <button type="button">Track Calories Button</button>
-      <button type="button">Button to select day/week/month/year</button>
+      <canvas id="mychart"></canvas>
     </div>
+
+    <!-- Doughnut graph -->
+    <div>Apple Graph</div>
+
+    <!--Start-Side: Pie Chart with key menu -->
+    <div></div>
+
+    <!-- calorie counter button -->
+    <button type="button">Track Calories Button</button>
+
+    <!---End-Side: Grand Calorie Intake Container-->
+
     <div>
-      Today's Meals
+      <!-- Today's Meals -->
       <button>Add Meal/Calories Button</button>
     </div>
+
     <div>
-      Water Chart
+      <!-- Water Chart -->
       <button>Water Chart Add Intake Button</button>
     </div>
   </body>
