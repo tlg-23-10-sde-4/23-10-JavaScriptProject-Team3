@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="./script.js" async defer></script>
     <link rel="stylesheet" href="./style.css" />
     <title>Steps tracking page</title>
@@ -16,6 +16,9 @@
       <h1>Step Counter</h1>
     </div>
     <div>
+      <div>
+        <canvas id="stepsChart"></canvas>
+      </div>
       <button>This will allow us to add step data</button>
       <button>This is the menu button</button>
       <div class="time-frame-container">
