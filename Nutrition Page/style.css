@@ -1,0 +1,35 @@
+img {
+  width: 150px; /* You can adjust the value as needed */
+  height: auto; /* Maintain aspect ratio */
+  border: 2px solid black; /* black border */
+  margin: 5px;
+}
+.meal-container {
+  background: linear-gradient(
+    60deg,
+    #a09abc,
+    #edbebe
+  ); /* Adjust the colors as needed */
+  padding: 20px; /* Add padding for better spacing */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+img {
+  width: 150px; /* You can adjust the value as needed */
+  height: auto; /* Maintain aspect ratio */
+  border: 2px solid black; /* black border */
+  margin: 5px;
+}
+.meal-container {
+  background: linear-gradient(
+    60deg,
+    #a09abc,
+    #edbebe
+  ); /* Adjust the colors as needed */
+  padding: 20px; /* Add padding for better spacing */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
