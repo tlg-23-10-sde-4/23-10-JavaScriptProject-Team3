@@ -1,27 +1,27 @@
-// //Ari: daily calories burned graph
+// Meal Entry Section
 let currentGraph = "doughnut"; // Initial graph
 
-const doughnutData = {
+// Doughnut chart data
+let doughnutData = {
   labels: ["Daily Caloric Amount:", "Calorie Intake:", "Remaining:"],
   datasets: [
     {
-      label: "Total Calorie",
-      data: [1371, 216, 413],
+      data: [500, 300, 200],
       backgroundColor: [
         "rgb(42, 72,73)",
         "rgb(246, 125,60)",
         "rgb(188, 188, 188)",
       ],
-      hoverOffset: 4,
     },
   ],
 };
 
+// Pie chart data
 const pieData = {
   labels: doughnutData.labels,
   datasets: [
     {
-      data: [500, 300, 200], // Different data for the pie chart
+      data: [500, 300, 200],
       backgroundColor: [
         "rgb(42, 72,73)",
         "rgb(246, 125,60)",
@@ -32,7 +32,10 @@ const pieData = {
   ],
 };
 
+// Get canvas element
 const ctx = document.getElementById("mychart").getContext("2d");
+
+// Create initial doughnut chart
 let myChart = new Chart(ctx, {
   type: "doughnut",
   data: doughnutData,
@@ -43,7 +46,6 @@ let myChart = new Chart(ctx, {
 });
 
 function toggleGraph() {
-  //Todo: add graph name header for each graph
   // Toggle between doughnut and pie charts
   if (currentGraph === "doughnut") {
     myChart.destroy(); // Destroy the current chart
@@ -76,66 +78,111 @@ function toggleGraph() {
   }
 }
 
-// //add meal
-// function openModal(mealtime) {
-//   document.getElementById("mealTime").value = mealtime;
-//   document.getElementById("modal").style.display = "block";
-//   document.getElementById("overlay").style.display = "block";
-// }
-
-// function closeModal() {
-//   document.getElementById("modal").style.display = "none";
-//   document.getElementById("overlay").style.display = "none";
-// }
-
-// function addMeal() {
-//   // Get values from the modal
-//   const mealName = document.getElementById("mealName").value;
-//   const calories = document.getElementById("calories").value;
-//   const mealTime = document.getElementById("mealTime").value;
-
-//   // Log the values to the console (you can replace this with your logic)
-//   console.log("Meal Name: ", mealName);
-//   console.log("Calories: ", calories);
-//   console.log("Meal Time: ", mealTime);
-
-//   // You can add your logic to store or display the meal information as needed
-
-//   addMeal();
-//   // Close the modal
-//   closeModal();
-// }
-
-function addMeal(mealtime) {
-  // Use prompt to get input from the user
-  const mealName = prompt(`Enter meal name for ${mealtime}:`);
-  const calories = prompt(`Enter calories for ${mealtime}:`);
-
-  // Log the values to the console (you can replace this with your logic)
-  console.log("Meal Name: ", mealName);
-  console.log("Calories: ", calories);
-  console.log("Meal Time: ", mealtime);
-
-  // Display meal information on the page
-  displayInfo("mealInfo", `${mealtime}: ${mealName} - ${calories} calories`);
+function setMealType(mealType) {
+  const mealTypeElement = document.getElementById("mealType");
+  mealTypeElement.textContent = `Meal Type: ${mealType}`;
 }
+
+function showUserInputForm() {
+  const userInputForm = document.getElementById("userInputForm");
+  userInputForm.style.display = "block";
+}
+
+// Function to open the meal input popup
+function openAndSubmitMeal(mealType) {
+  // Set the meal type in the alert
+  alert(`Meal Type: ${mealType}`);
+
+  // Prompt the user for additional data
+  const time = window.prompt("Enter Time:") || "";
+  const foodItem = window.prompt("Enter Food Item:") || "";
+  const calories = window.prompt("Enter Calories:") || "";
+
+  // Call the submitMeal function with entered data
+  submitMeal(mealType, time, foodItem, calories);
+}
+// Malfunction in code where user input is not logged. Currently only able to properly submit meal input via the openAndSubmitMeal() function.
+TODO: function submitMeal(mealType, time, foodItem, calories) {
+  // Create a message with the meal information
+  const message = `Meal Information:\n\nTime: ${time}\nFood Item: ${foodItem}\nCalories: ${calories}\n${mealType}`;
+
+  // Log the message to the console
+  console.log(message);
+
+  // Display the message in the meal history container
+  const mealHistoryContainer = document.querySelector(".meal-history");
+  const newMealEntry = document.createElement("div");
+  newMealEntry.textContent = message;
+  mealHistoryContainer.appendChild(newMealEntry);
+
+  updateCalorieIntake(calories);
+}
+
+//update  functionality of calorie logging to graph so that graph updates to new logged data
+TODO: function updateCalorieIntake(calories) {
+  doughnutData.datasets[0].data[1] += parseInt(calories); // Add the calories to the calorie intake
+  doughnutData.datasets[0].data[2] -= parseInt(calories); // Subtract the calories from the remaining count
+
+  // Update the doughnut chart
+  myChart.update();
+}
+
+// Set chart and click handlers when the page is loaded
+document.addEventListener("DOMContentLoaded", function () {
+  updateDoughnutChart();
+  // setImageClickHandlers();
+});
+
+// Water Intake Section
+document.addEventListener("DOMContentLoaded", function () {
+  var waterwheelContainer = document.querySelector(".waterwheel-container");
+  waterwheelContainer.style.width = "25vw";
+});
+let totalWaterIntake = 0;
 
 function addWater() {
-  // Use prompt to get input from the user
-  const waterIntake = prompt("Enter water intake in milliliters:");
+  const waterInput = document.getElementById("waterInput");
+  const waterAmount = parseInt(waterInput.value, 10);
 
-  // Log the value to the console (you can replace this with your logic)
-  console.log("Water Intake: ", waterIntake);
+  if (isNaN(waterAmount) || waterAmount <= 0) {
+    alert("Please enter a valid water intake amount.");
+    return;
+  }
 
-  // Display water intake information on the page
-  displayInfo("waterInfo", `Water Intake: ${waterIntake} ml`);
+  totalWaterIntake += waterAmount;
+  updateTotalWater();
+  updateDoughnutChart();
+  waterInput.value = "";
 }
 
-function displayInfo(containerId, info) {
-  // Create a new div to display information
-  const infoDiv = document.createElement("div");
-  infoDiv.innerHTML = `<strong>${info}</strong>`;
+function updateTotalWater() {
+  const totalWaterElement = document.getElementById("totalWater");
+  totalWaterElement.textContent = totalWaterIntake;
+}
 
-  // Append the div to the specified container
-  document.getElementById(containerId).appendChild(infoDiv);
+function updateDoughnutChart() {
+  const ctx = document.getElementById("waterChart").getContext("2d");
+  const data = {
+    labels: ["Consumed", "Remaining"],
+    datasets: [
+      {
+        data: [totalWaterIntake, 2000 - totalWaterIntake], // Assuming a daily goal of 2000 mL
+        backgroundColor: ["#36A2EB", "#FFCE56"],
+      },
+    ],
+  };
+
+  const options = {
+    cutoutPercentage: 70,
+  };
+
+  if (window.myDoughnutChart) {
+    window.myDoughnutChart.destroy();
+  }
+
+  window.myDoughnutChart = new Chart(ctx, {
+    type: "doughnut",
+    data: data,
+    options: options,
+  });
 }
