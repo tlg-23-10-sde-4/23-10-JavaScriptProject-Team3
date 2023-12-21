@@ -1,22 +1,28 @@
 // Global variables
 // Most should eventually be pulled from the API or the server
 const sleepGoal = 7;
-const timeNow = new Date();
+let timeNow = new Date();
 const todayMonth = timeNow.getMonth()+1;
 const todayDate = timeNow.getDate();
 const arrHoursSleep = []
 const sleepData = {}
 const avgHrsSleep = []
-const ctx = document.getElementById("sleepChart");
+
 let iterator = 0;
+let dateArrayInterval = 7;
+const arrLastSevenDays = fillDateArray(dateArrayInterval);
+
+// Pointers to elements by id 
+const pointerLogSleepBtn = document.getElementById("log_Sleep_Btn")
+
+const ctx = document.getElementById("sleepChart");
 
 // function that shows sleep time based on sleep schedule and phone usage
 
 // function where icon plays audio when clicked
 
-// Displaying the average hours of sleep over the past week
-const pointerAvgSleep = document.getElementById("averageSleep")
-// pointerAvgSleep.textContent = `You averaged ${avgHrsSleep.toFixed(2)} hours of sleep over the past week`
+
+
 
 //3-dot functionality usage order of operations
 
@@ -35,21 +41,19 @@ function getFitnessData() {
       console.log((sleepData.sleep[iterator].minutesAsleep) / 60)
       iterator++
     }
-    // console.log(arrHoursSleep);
   })
   .then(() => {
+    // graph of sleep time over past 7 days
     new Chart(ctx, {
       type: "bar",
       data: {
-        // Eventually need to change the labels here
-        // Will display odd values during the first 6 days of the month
-        labels: [   `${todayMonth}/${todayDate-6}`, 
-                    `${todayMonth}/${todayDate-5}`, 
-                    `${todayMonth}/${todayDate-4}`, 
-                    `${todayMonth}/${todayDate-3}`, 
-                    `${todayMonth}/${todayDate-2}`, 
-                    `${todayMonth}/${todayDate-1}`, 
-                    `${todayMonth}/${todayDate}`],
+        labels: [ arrLastSevenDays[0], 
+                  arrLastSevenDays[1], 
+                  arrLastSevenDays[2], 
+                  arrLastSevenDays[3], 
+                  arrLastSevenDays[4], 
+                  arrLastSevenDays[5], 
+                  arrLastSevenDays[6]],
         datasets: [
           {
             label: "Hours of Sleep",
@@ -83,15 +87,51 @@ function getFitnessData() {
 
 getFitnessData();
 
-// graph of sleep time over past 7 days
-
 
 
 
 //function to enter sleep data manually
+const classHidden = document.getElementById("log_Sleep_Form")
+
+pointerLogSleepBtn.addEventListener("click", (e) => {
+  // e.preventDefault();
+  if (classHidden.style.display === "none") {
+    classHidden.style.display = "block";
+  } else {
+    classHidden.style.display = "none"
+  }
+})
+
+log_Sleep_Submit.addEventListener("submit", (e) => {
+  // Need to separate the date and time out of newSleepDate
+  const newSleepDate = e.target.parent.children[0].children[0].children[0].value;
+  const newSleepDurationHrs = e.target.parent.children[0].children[1].children[0].value;
+  const newSleepDurationMins = newSleepDurationHrs * 60;
+  fetch ("https://api.fitbit.com/1.2/user/-/sleep.json?date=`${newSleepDate}`startTime=`${newSleepStartTime}`&duration=`${newSleepDurationMillis}`&")
+
+})
+
 
 // function to calculate average hours of sleep over the past week
 function calculateAvgSleep(array) {
   const average = array => array.reduce((a, b) => a + b) / array.length;
   const avgHrsSleep = average(arrHoursSleep);
+}
+
+// Function to fill array with last 7 days
+// For use in the chart
+function fillDateArray(interval) {
+  let thisArray = [];
+  let thisDate = timeNow.getDate();
+  let thisMonth = timeNow.getMonth()+1;
+  thisArray.push(`${thisMonth}/${thisDate}`);
+  for (let i = 0; i < (interval-1); i++) {
+    dayBefore = thisDate - 1
+    thisDate = timeNow.setDate(dayBefore);
+    thisDate = timeNow.getDate();
+    thisMonth = timeNow.getMonth()+1;
+    thisArray.push(`${thisMonth}/${thisDate}`);
+  }
+  thisArray.reverse();
+  return thisArray;
 }
