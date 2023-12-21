@@ -3,30 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nutrition Page</title>
-    <link rel="stylesheet" href="./style.css" />
-
-    <!---chartjs script.js-->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0"></script>
-  
-    <script src="./script.js" async defer></script>
+    <title>Meal and Water Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" async defer></script>
+    <script src="script.js" async defer></script>
   </head>
   <body>
-    <header>
-      <h1>My Fitness App</h1>
-      <h1>Nutrition</h1>
-    </header>
 
-    <!---Start-Side: Grand Calorie Intake Container-->
+    <!---Graph Area Section-->
 
-    <!--requires canvas creation to be used-->
-    
-    <div class="Doughnut graph">
-        <h1>Doughnut Graph</h1>
+
+    <div class="Doughnut-graph">
+        <h1>Caloric Intake and Nutrition</h1>
         <div>
           <canvas id="mychart"></canvas>
         </div>
-    
+        <div class="pie-view-container">
+          <h2>Macronutrients Breakdown:</h4>
+          <button type="button" onclick="toggleGraph()">toggle Graph</button>
+          <br>
+          <p>Carbs:....</p>
+          </div>
         <div class="graph-view-container">
           <ul>
             <li><button>Week</button></li>
@@ -34,92 +31,77 @@
             <li><button>Year</button></li>
           </ul>
         </div>
+        <br>
       </div>
-      
-      <div>
-      
-        <button type="button" onclick="toggleGraph()">toggle Graph</button>
-      </div>
-    
-    </div>
+      <br>
 
-    <!-- Doughnut graph -->
-    
-
-    <!--Start-Side: Pie Chart with key menu -->
-    <div></div>
 
     <!-- calorie counter button -->
     <button type="button">Track Calories Button</button>
 
-    -End-Side: Grand Calorie Intake Container
+   
+  
 
-    <div class="meal-container">
-      <!-- Today's Meals -->
-      <img src="https://th.bing.com/th/id/OIP.yeiTndRA3mhXlnn5mdk4sQHaH_?w=181&h=195&c=7&r=0&o=5&pid=1.7"
-          alt="breakfast" srcset="" onclick="openModal('breakfast')">
-      <img src="https://th.bing.com/th/id/OIP.vd2rq5tevnE0XVvzVIqH-gAAAA?pid=ImgDet&w=181&h=181&c=7"
-          alt="lunch" srcset="" onclick="openModal('lunch')">
-      <img src="https://th.bing.com/th/id/OIP.XNBRRlar2yyGaw30k6Z7ZwHaHa?w=177&h=180&c=7&r=0&o=5&pid=1.7"
-          alt="dinner" srcset="" onclick="openModal('dinner')">
-      <img src="https://th.bing.com/th/id/OIP.uKbJ80BTSdDD6poC_ysCjwHaHg?rs=1&pid=ImgDetMain"
-          alt="snacks" srcset="" onclick="openModal('snacks')">
-  </div>
-
-  <!-- Add Meal Modal -->
-<div class="overlay" id="overlay" onclick="closeModal()"></div>
-<div class="modal" id="modal">
-    <label for="mealName">Meal Name:</label>
-    <input type="text" id="mealName" name="mealName" required>
-
-    <label for="calories">Calories:</label>
-    <input type="number" id="calories" name="calories" required>
-
-    <label for="mealTime">Meal Time:</label>
-    <select id="mealTime" name="mealTime">
-        <option value="breakfast">Breakfast</option>
-        <option value="lunch">Lunch</option>
-        <option value="dinner">Dinner</option>
-        <option value="snacks">Snacks</option>
-    </select>
-
-    <!-- Use a single function to show an alert message -->
-    <button onclick="showAlertMessage()">Add Meal/Calories Button</button>
-</div>
-
-<script>
-    function showAlertMessage() {
-        var mealName = document.getElementById("mealName").value;
-        var calories = document.getElementById("calories").value;
-        var mealTime = document.getElementById("mealTime").value;
-
-        // Check if any of the fields is empty
-        if (!mealName || !calories || !mealTime) {
-            alert("Please fill in all fields before adding the meal.");
-            return;
-        }
-
-        // Show an alert message with meal information
-        alert(`Meal added!\nName: ${mealName}\nCalories: ${calories}\nTime: ${mealTime}`);
-
-        // Close the modal
-        closeModal();
-    }
-
-    function closeModal() {
-        var modal = document.getElementById("modal");
-        var overlay = document.getElementById("overlay");
-
-        modal.style.display = "none";
-        overlay.style.display = "none";
-    }
-</script>
     <div>
-      <!-- Water Chart -->
-      <img src="https://www.pngfind.com/pngs/m/67-673765_water-icon-png-clip-art-water-png-transparent.png" alt="water droplet">
-      <button onclick="addWater()">Water Add Intake </button>
-      <div class="info-container" id="waterInfo"></div>
+
+
+    <!-- Meal Entry Section -->
+    <div class="meal-entry-section">
+      <h2>Meal Entry</h2>
+      <p id="mealType"></p>
+
+      <div id="userInputForm">
+        <label for="time">Time:</label>
+        <input type="text" id="time" placeholder="Enter time" />
+
+        <label for="foodItem">Food Item:</label>
+        <input type="text" id="foodItem" placeholder="Enter food item" />
+
+        <label for="calories">Calories:</label>
+        <input type="text" id="calories" placeholder="Enter calories" />
+
+        <button onclick="submitMeal()">Submit</button>
+      </div>
+
+      <div class="mealType-container">
+        <h3>ENTER MEAL:</h3>
+        <br />
+        <img
+          src="https://th.bing.com/th/id/OIP.yeiTndRA3mhXlnn5mdk4sQHaH_?w=181&h=195&c=7&r=0&o=5&pid=1.7"
+          alt="breakfast"
+          onclick="openAndSubmitMeal('Breakfast')"
+        />
+        <img
+          src="https://th.bing.com/th/id/OIP.vd2rq5tevnE0XVvzVIqH-gAAAA?pid=ImgDet&w=181&h=181&c=7"
+          alt="lunch"
+          onclick="openAndSubmitMeal('Lunch')"
+        />
+        <img
+          src="https://th.bing.com/th/id/OIP.XNBRRlar2yyGaw30k6Z7ZwHaHa?w=177&h=180&c=7&r=0&o=5&pid=1.7"
+          alt="dinner"
+          onclick="openAndSubmitMeal('Dinner')"
+        />
+        <img
+          src="https://th.bing.com/th/id/OIP.uKbJ80BTSdDD6poC_ysCjwHaHg?rs=1&pid=ImgDetMain"
+          alt="snack"
+          onclick="openAndSubmitMeal('Snack')"
+        />
+      </div>
+      <div class="meal-history"></div>
+    </div>
+    <br />
+    <!-- Water Intake Section -->
+    <div class="water-intake-section">
+      <h2>Water Intake</h2>
+      <label for="waterInput">Enter Water Intake:</label>
+      <input type="text" id="waterInput" placeholder="Enter water intake" />
+      <button onclick="addWater()">Add Water</button>
+
+      <div class="waterwheel-container">
+        <h3>Total Water Intake:</h3>
+        <span id="totalWater">0</span> ml
+        <canvas id="waterChart"></canvas>
+      </div>
     </div>
   </body>
 </html>
-
