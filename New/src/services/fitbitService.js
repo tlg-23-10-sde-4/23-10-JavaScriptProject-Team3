@@ -68,7 +68,7 @@ async function getActivitiesData(accessToken) {
 
 async function getSleepData(accessToken) {
   try {
-    const response = await axios.get(`${FITBIT_API_BASE_URL}/1.2/user/-/sleep/list.json`, {
+    const response = await axios.get(`${FITBIT_API_BASE_URL}/1.2/user/-/sleep/date/${sevenDaysAgo}/${todayString}.json`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     return response.data;
@@ -98,5 +98,28 @@ async function createWeightData(accessToken, weight) {
   }
 }
 
+async function createNutritionData(accessToken, foodId, mealTypeId, amount) {
+  try {
+    const unitId = await axios.get(`${FITBIT_API_BASE_URL}/1/foods/units.json?foodId=${foodId}`
+    ,null, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const response = await axios.post(
+      `${FITBIT_API_BASE_URL}/1/user/-/foods/log.json?foodId=${foodId}&mealTypeId=${mealTypeId}&unitId=${unitId}&amount=${amount}&date=${todayString}`,
+      null, // Pass null as the request payload
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data['foodLog'];
+  } catch (error) {
+    console.error('Error creating food data:', error);
+    throw error;
+  }
+}
 
 module.exports = { getUserProfile, getWeightData, getBMIForWeek , getNutritionData, getActivitiesData, getSleepData, createWeightData };
