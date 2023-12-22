@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="./script.js" async defer></script>
+    <link rel="stylesheet" href="./style.css" />
+    <title>Steps tracking page</title>
+  </head>
+  <body>
+    <div id="replace_with_navbar"></div>
+    <header>
+      <h1>My Fitness App</h1>
+    </header>
+    <div>
+      <h1>Step Counter</h1>
+    </div>
+    <div>
+      <div>
+        <canvas id="stepsChart"></canvas>
+      </div>
+      <button>This will allow us to add step data</button>
+      <button>This is the menu button</button>
+      <div class="time-frame-container">
+        <button>24 Hour</button>
+        <button>Week</button>
+        <button>Month</button>
+        <button>Year</button>
+      </div>
+    </div>
+    <div>
+      This will display the calories
+      <button>This will be the menu button</button>
+    </div>
+    <div>
+      <button type="submit">Enter data</button>
+    </div>
+
+    <script>
+      fetch("/New/public/nav.html")
+        .then((res) => res.text())
+        .then((text) => {
+          let oldelem = document.querySelector("#replace_with_navbar");
+          let newelem = document.createElement("div");
+          newelem.innerHTML = text;
+          oldelem.parentNode.replaceChild(newelem, oldelem);
+        });
+
+      // Add an event listener to the button
+      document
+        .getElementById("toggleNav")
+        .addEventListener("click", function () {
+          // Get the navigation bar
+          let navbar = document.querySelector("nav");
+
+          // Toggle the display property
+          if (navbar.style.display === "none") {
+            navbar.style.display = "block";
+          } else {
+            navbar.style.display = "none";
+          }
+        });
+    </script>
+
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/New/public/js/nav.js"></script>
+  </body>
+</html>

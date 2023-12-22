@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login and Signup Page</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="./script.js" async defer></script>
+  </head>
+  <body>
+    <div id="replace_with_navbar"></div>
+    <div>
+      <h1>My Fitness App</h1>
+      <h1>Login/Signup</h1>
+    </div>
+    <div>
+      <h1>Login</h1>
+      <form action="">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Enter your email"
+        />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Enter your password"
+        />
+        <button>Login</button>
+      </form>
+    </div>
+    <div>
+      <h1>Signup</h1>
+      <form action="">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Enter your name"
+        />
+        <label for="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Enter your email"
+        />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Enter your password"
+        />
+        <button>Signup</button>
+      </form>
+    </div>
+    <script>
+      fetch("/New/public/nav.html")
+        .then((res) => res.text())
+        .then((text) => {
+          let oldelem = document.querySelector("#replace_with_navbar");
+          let newelem = document.createElement("div");
+          newelem.innerHTML = text;
+          oldelem.parentNode.replaceChild(newelem, oldelem);
+        });
+
+      // Add an event listener to the button
+      document
+        .getElementById("toggleNav")
+        .addEventListener("click", function () {
+          // Get the navigation bar
+          let navbar = document.querySelector("nav");
+
+          // Toggle the display property
+          if (navbar.style.display === "none") {
+            navbar.style.display = "block";
+          } else {
+            navbar.style.display = "none";
+          }
+        });
+    </script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/New/public/js/nav.js"></script>
+  </body>
+</html>

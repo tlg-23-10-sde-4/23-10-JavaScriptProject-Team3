@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personalized Recommendations</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./script.js"></script>
+  </head>
+  <body>
+    <div id="replace_with_navbar"></div>
+    <header>
+      <h1>My Fitness App</h1>
+    </header>
+    <div>
+      <h1>Personalized Recommendations</h1>
+      <p>Here are some recommendations based on your profile.</p>
+    </div>
+    <div>
+      <h2>Recommended Workouts</h2>
+      <div>
+        <h3>Workout 1</h3>
+        <p>Workout 1 description</p>
+        <button>View Workout</button>
+      </div>
+      <div>
+        <h3>Workout 2</h3>
+        <p>Workout 2 description</p>
+        <button>View Workout</button>
+      </div>
+      <div>
+        <h3>Workout 3</h3>
+        <p>Workout 3 description</p>
+        <button>View Workout</button>
+      </div>
+    </div>
+    <div>
+      <h2>Recommended Recipes</h2>
+      <div>
+        <h3>Recipe 1</h3>
+        <p>Recipe 1 description</p>
+        <button>View Recipe</button>
+      </div>
+      <div>
+        <h3>Recipe 2</h3>
+        <p>Recipe 2 description</p>
+        <button>View Recipe</button>
+      </div>
+      <div>
+        <h3>Recipe 3</h3>
+        <p>Recipe 3 description</p>
+        <button>View Recipe</button>
+      </div>
+    </div>
+    <script>
+      fetch("/New/public/nav.html")
+        .then((res) => res.text())
+        .then((text) => {
+          let oldelem = document.querySelector("#replace_with_navbar");
+          let newelem = document.createElement("div");
+          newelem.innerHTML = text;
+          oldelem.parentNode.replaceChild(newelem, oldelem);
+        });
+
+      // Add an event listener to the button
+      document
+        .getElementById("toggleNav")
+        .addEventListener("click", function () {
+          // Get the navigation bar
+          let navbar = document.querySelector("nav");
+
+          // Toggle the display property
+          if (navbar.style.display === "none") {
+            navbar.style.display = "block";
+          } else {
+            navbar.style.display = "none";
+          }
+        });
+    </script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/New/public/js/nav.js"></script>
+  </body>
+</html>
