@@ -140,7 +140,7 @@ app.get('/nutrition', async (req, res) => {
 app.get('/sleep', async (req, res) => {
   if (req.isAuthenticated()) {
     const sleepData = await fitbitService.getSleepData(req.session.passport.user.accessToken);
-    res.json(sleepData);
+    res.render('sleep', { userSleep: sleepData });
   } else {
     res.redirect('/login/fitbit');
   }
@@ -160,30 +160,23 @@ app.post('/bodycomp', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+app.post('/nutrition', async (req, res) => {
+  try {
+    if (req.isAuthenticated()) {
+      const food = req.body.food; // Access food from the form data
+      await fitbitService.createNutritionData(req.session.passport.user.accessToken, foodId, mealTypeId, amount);
+      res.status(200).send('Data successfully posted');
+    } else {
+      res.status(401).json({ error: 'Unauthorized' });
+    }
+  } catch (error) {
+    console.error('Error posting nutrition data:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-{/* <script async defer>
-const labels = []; 
-const data = []; 
-userBody['body-bmi'].forEach((day) => { 
-labels.push(day.dateTime); 
-data.push(day.value); 
-}); 
-console.log("labels from bodycomp="+labelsJSON);
-const ctx = document.getElementById('bmi-chart'); 
-new Chart(ctx, {
-  type: 'line',
-  data: {
-      labels: JSON.parse(labelsJSON),
-    datasets: [{
-      label: 'BMI',
-      data: JSON.parse(dataJSON),
-       fill: false,
-       borderColor: 'rgb(75, 192, 192)',
-       tension: 0.1
-     }]
-   }
- })
-</script> */}

@@ -5,9 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Account Profile</title>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
-  <body>
+  <body class="profileBody">
     <header>
       <%- include('partials/header'); %>
 
@@ -15,11 +15,11 @@
     <h1>
 
       Welcome to your profile
-      <p><%= user.displayName %></p>
-      <p><%= user.age %></p>
-      <p><%= user.height %></p>
-      <p><%= user.memberSince %></p>
-      <p><%= (user.weight *2.20462) %></p>
+      <p>Name: <%= user.displayName %></p>
+      <p>Age: <%= user.age %></p>
+      <p>Height: <%= user.height %></p>
+      <p>Weight: <%= (user.weight *2.20462) %></p>
+      <p>Fitbit Member Since: <%= user.memberSince %></p>
     </h1>
     <div>
       <a href="/bodycomp">Body Composition Page</a>
@@ -27,34 +27,8 @@
       <a href="/nutrition">Nutrition Page</a>
       <a href="/sleep">Sleep Page</a>
     </div>
-    <script>
-      fetch("./nav.html")
-        .then((res) => res.text())
-        .then((text) => {
-          let oldelem = document.querySelector("#replace_with_navbar");
-          let newelem = document.createElement("div");
-          newelem.innerHTML = text;
-          oldelem.parentNode.replaceChild(newelem, oldelem);
-        });
-
-      // Add an event listener to the button
-      document
-        .getElementById("toggleNav")
-        .addEventListener("click", function () {
-          // Get the navigation bar
-          let navbar = document.querySelector("nav");
-
-          // Toggle the display property
-          if (navbar.style.display === "none") {
-            navbar.style.display = "block";
-          } else {
-            navbar.style.display = "none";
-          }
-        });
-    </script>
       <%- include('partials/footer'); %>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="./nav.js"></script>
   </body>
 </html>
