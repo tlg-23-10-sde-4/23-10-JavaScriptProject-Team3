@@ -16,6 +16,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static('public'));
+app.use(express.json());
 app.set('view engine', 'ejs');
 
 passport.use(new FitbitStrategy({
@@ -108,8 +109,6 @@ app.get('/bodycomp', async (req, res) => {
     if (req.isAuthenticated()) {
       const bodyCompData = await fitbitService.getBMIForWeek(req.session.passport.user.accessToken);
       const weightData = await fitbitService.getWeightData(req.session.passport.user.accessToken);
-      console.log(weightData);
-      console.log(bodyCompData);
       res.render('bodycomp', { userBody: bodyCompData, userWeight: weightData });
 
       // console.log(userBody[0].bmi);
@@ -132,7 +131,8 @@ app.get('/activities', async (req, res) => {
 app.get('/nutrition', async (req, res) => {
   if (req.isAuthenticated()) {
     const nutritionData = await fitbitService.getNutritionData(req.session.passport.user.accessToken);
-    res.json(nutritionData);
+    res.render('nutrition', { userNutrition: nutritionData });
+    // res.json(nutritionData);
   } else {
     res.redirect('/login/fitbit');
   }
@@ -146,6 +146,20 @@ app.get('/sleep', async (req, res) => {
   }
 });
 
+app.post('/bodycomp', async (req, res) => {
+  try {
+    if (req.isAuthenticated()) {
+      const weight = req.body.weight; // Access weight from the form data
+      await fitbitService.createWeightData(req.session.passport.user.accessToken, weight);
+      res.status(200).send('Data successfully posted');
+    } else {
+      res.status(401).json({ error: 'Unauthorized' });
+    }
+  } catch (error) {
+    console.error('Error posting body composition data:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

@@ -78,4 +78,25 @@ async function getSleepData(accessToken) {
   }
 }
 
-module.exports = { getUserProfile, getWeightData, getBMIForWeek , getNutritionData, getActivitiesData, getSleepData };
+async function createWeightData(accessToken, weight) {
+  try {
+    const response = await axios.post(
+      `${FITBIT_API_BASE_URL}/1/user/-/body/log/weight.json?weight=${weight}&date=${todayString}`,
+      null, // Pass null as the request payload
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    // console.log('response', response);
+    return response.data['weightLog'];
+  } catch (error) {
+    console.error('Error creating weight data:', error);
+    throw error;
+  }
+}
+
+
+module.exports = { getUserProfile, getWeightData, getBMIForWeek , getNutritionData, getActivitiesData, getSleepData, createWeightData };

@@ -1,37 +1,35 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // Example: Add an event listener for a button click
-  const myButton = document.getElementById('myButton');
-  if (myButton) {
-    myButton.addEventListener('click', function () {
-      alert('Button clicked!');
-    });
-  }
+  const addWeightForm = document.getElementById('addWeightForm'); // Assuming you have a form with this ID
 
-  // Example: Make an AJAX request using Fetch API
-  const fetchDataButton = document.getElementById('fetchDataButton');
-  const dataContainer = document.getElementById('dataContainer');
+  if (addWeightForm) {
+    addWeightForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
 
-  if (fetchDataButton && dataContainer) {
-    fetchDataButton.addEventListener('click', async function () {
+      const weightInput = document.getElementById('addWeight');
+      const weight = weightInput.value;
+
       try {
-        // Replace the URL with your actual API endpoint
-        const response = await fetch('/api/data');
-        const data = await response.json();
+        // Assuming you are using fetch to make a POST request
+        const response = await fetch('/bodycomp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json', // Adjust the content type if needed
+          },
+          body: JSON.stringify({ weight }),
+        });
 
-        // Display the fetched data in the container
-        dataContainer.innerHTML = JSON.stringify(data, null, 2);
+        if (response.ok) {
+          //TODO make this a toast notification
+          console.log('Weight data submitted successfully');
+          // You can optionally handle success, e.g., show a success message
+        } else {
+          console.error('Error submitting weight data:', response.statusText);
+          // You can handle errors here, e.g., show an error message
+        }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error submitting weight data:', error);
+        // You can handle errors here, e.g., show an error message
       }
     });
-  }
-});
-// handle listening for the button clicks
-
-document.querySelector('.weight_or_bmi').addEventListener('click', (event) => {
-  if (event.target.value === 'weight') {
-    getWeightData();
-  } else {
-    getBMIForWeek();
   }
 });
