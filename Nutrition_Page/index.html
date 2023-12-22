@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Meal and Water Tracker</title>
 
-    <link rel="stylesheet" type="text/css" href="/New/public/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/New/public/css/styles.css" />
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -16,21 +16,32 @@
     <link rel="stylesheet" href="style.css" />
 
     <!-- //nav bar automation -->
-   
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js" async defer></script>
     <!-- <script id="replace_with_navbar" src="/New/public/js/nav.js"></script>  -->
-    
+
     <script src="script.js" async defer></script>
   </head>
   <body>
+    <<<<<<< HEAD:Nutrition Page/index.html =======
 
     <!-- Navigation bar placeholder -->
-  <div id="replace_with_navbar"></div>
+    <div id="replace_with_navbar"></div>
 
+    >>>>>>> main:Nutrition_Page/index.html
     <!---Graph Area Section-->
 
-
+    <div id="total-calories">
+      <h2>Total Calories:</h2>
+      <span id="totalCalories">0</span>
+      <canvas id="calorie-chart"></canvas>
+    </div>
     <div class="Doughnut-graph">
+      <<<<<<< HEAD:Nutrition Page/index.html
+      <h1>Caloric Intake and Nutrition</h1>
+      <div>
+        <canvas id="mychart"></canvas>
+        =======
         <h1>Caloric Intake and Nutrition</h1>
         <div>
           <canvas id="mychart"></canvas>
@@ -38,9 +49,9 @@
         <div class="pie-view-container">
           <h2>Macronutrients Breakdown:</h2>
           <button type="button" onclick="toggleGraph()">toggle Graph</button>
-          <br>
+          <br />
           <p>Carbs:....</p>
-          </div>
+        </div>
         <div class="graph-view-container">
           <ul>
             <li><button>Week</button></li>
@@ -48,19 +59,36 @@
             <li><button>Year</button></li>
           </ul>
         </div>
-        <br>
+        <br />
+        >>>>>>> main:Nutrition_Page/index.html
       </div>
-      <br>
-
+      <div class="pie-view-container">
+        <h2>Macronutrients Breakdown:</h2>
+        <button type="button" onclick="toggleGraph()">toggle Graph</button>
+        <br />
+        <canvas id="nutrient-chart"></canvas>
+        <ol id="foodName">
+          <li id="servingSize"></li>
+          <li id="calories"></li>
+          <li id="totalCarbohydrate"></li>
+          <li id="totalFat"></li>
+          <li id="protein"></li>
+        </ol>
+        <p>Carbs:....</p>
+      </div>
+      <div class="graph-view-container">
+        <ul>
+          <li><button>Week</button></li>
+          <li><button>Month</button></li>
+          <li><button>Year</button></li>
+        </ul>
+      </div>
+      <br />
+    </div>
+    <br />
 
     <!-- calorie counter button -->
-    <button type="button">Track Calories Button</button>
-
-   
-  
-
-    <div>
-
+    <!-- <button type="button">Track Calories Button</button> -->
 
     <!-- Meal Entry Section -->
     <div class="meal-entry-section">
@@ -84,27 +112,33 @@
         <h3>ENTER MEAL:</h3>
         <br />
         <img
+          id="submit-button"
+          class="meal-type-image"
           src="https://th.bing.com/th/id/OIP.yeiTndRA3mhXlnn5mdk4sQHaH_?w=181&h=195&c=7&r=0&o=5&pid=1.7"
           alt="breakfast"
-          onclick="openAndSubmitMeal('Breakfast')"
+          onclick="submitMeal()"
         />
-        <img
+        <!-- <img
+          class="meal-type-image"
           src="https://th.bing.com/th/id/OIP.vd2rq5tevnE0XVvzVIqH-gAAAA?pid=ImgDet&w=181&h=181&c=7"
           alt="lunch"
-          onclick="openAndSubmitMeal('Lunch')"
+          onclick="submitMeal('Lunch')"
         />
         <img
+          class="meal-type-image"
           src="https://th.bing.com/th/id/OIP.XNBRRlar2yyGaw30k6Z7ZwHaHa?w=177&h=180&c=7&r=0&o=5&pid=1.7"
           alt="dinner"
-          onclick="openAndSubmitMeal('Dinner')"
+          onclick="submitMeal('Dinner')"
         />
+        
         <img
+          class="meal-type-image"
           src="https://th.bing.com/th/id/OIP.uKbJ80BTSdDD6poC_ysCjwHaHg?rs=1&pid=ImgDetMain"
           alt="snack"
-          onclick="openAndSubmitMeal('Snack')"
-        />
+          onclick="submitMeal('Snack')"
+        /> -->
       </div>
-      <div class="meal-history"></div>
+      <div id="meal-history"></div>
     </div>
     <br />
     <!-- Water Intake Section -->
@@ -131,19 +165,20 @@
           oldelem.parentNode.replaceChild(newelem, oldelem);
         });
 
-        // Add an event listener to the button
-  document.getElementById("toggleNav").addEventListener("click", function() {
-    // Get the navigation bar
-    let navbar = document.querySelector("nav");
+      // Add an event listener to the button
+      document
+        .getElementById("toggleNav")
+        .addEventListener("click", function () {
+          // Get the navigation bar
+          let navbar = document.querySelector("nav");
 
-    // Toggle the display property
-    if (navbar.style.display === "none") {
-      navbar.style.display = "block";
-    } else {
-      navbar.style.display = "none";
-    }
-  });
-
+          // Toggle the display property
+          if (navbar.style.display === "none") {
+            navbar.style.display = "block";
+          } else {
+            navbar.style.display = "none";
+          }
+        });
     </script>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/New/public/js/nav.js"></script>
