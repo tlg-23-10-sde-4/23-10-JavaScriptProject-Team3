@@ -26,3 +26,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+// handle listening for the button clicks
+
+document.querySelector('.weight_or_bmi').addEventListener('click', (event) => {
+  if (event.target.value === 'weight') {
+    getWeightData();
+  } else {
+    getBMIForWeek();
+  }
+});

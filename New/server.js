@@ -3,7 +3,7 @@ const session = require('express-session');
 const passport = require('passport');
 const FitbitStrategy = require('passport-fitbit-oauth2').FitbitOAuth2Strategy;
 const cookieParser = require('cookie-parser');
-const fitbitService = require('./services/fitbitService');
+const fitbitService = require('./src/services/fitbitService');
 
 const app = express();
 
@@ -92,8 +92,12 @@ app.get('/logout', (req, res) => {
 
 app.get('/profile', (req, res) => {
   if (req.isAuthenticated()) {
-    res.json(req.user);
-    console.log(req.session.passport.user.accessToken)
+
+    const user = req.user;
+    // console.log(user._json.user.displayName);
+    // console.log(user.displayName);
+    res.render('profile', { user: user._json.user });
+
   } else {
     res.status(401).json({ error: 'Unauthorized' });
   }
@@ -102,9 +106,13 @@ app.get('/profile', (req, res) => {
 app.get('/bodycomp', async (req, res) => {
   try {
     if (req.isAuthenticated()) {
-      // Assuming fitbitService.getBodyComposition is an asynchronous function
-      const bodyCompData = await fitbitService.getBodyComposition(req.session.passport.user.accessToken);
-      res.json(bodyCompData);
+      const bodyCompData = await fitbitService.getBMIForWeek(req.session.passport.user.accessToken);
+      const weightData = await fitbitService.getWeightData(req.session.passport.user.accessToken);
+      console.log(weightData);
+      console.log(bodyCompData);
+      res.render('bodycomp', { userBody: bodyCompData, userWeight: weightData });
+
+      // console.log(userBody[0].bmi);
     } else {
       res.status(401).json({ error: 'Unauthorized' });
     }
@@ -142,3 +150,26 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+{/* <script async defer>
+const labels = []; 
+const data = []; 
+userBody['body-bmi'].forEach((day) => { 
+labels.push(day.dateTime); 
+data.push(day.value); 
+}); 
+console.log("labels from bodycomp="+labelsJSON);
+const ctx = document.getElementById('bmi-chart'); 
+new Chart(ctx, {
+  type: 'line',
+  data: {
+      labels: JSON.parse(labelsJSON),
+    datasets: [{
+      label: 'BMI',
+      data: JSON.parse(dataJSON),
+       fill: false,
+       borderColor: 'rgb(75, 192, 192)',
+       tension: 0.1
+     }]
+   }
+ })
+</script> */}
