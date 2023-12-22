@@ -1,116 +1,4 @@
-//This one has API functionality(not yet tested)
-
-nutrientDataList.addEventListener("click", async (e) => {
-  if (e.target.matches(".delete")) {
-    const id = e.target.dataset.id;
-    const response = await fetch(`/api/nutrition/${id}`, {
-      method: "DELETE",
-    });
-
-    if (response.ok) {
-      document.location.replace("/dashboard");
-    } else {
-      alert("Failed to delete nutritient");
-    }
-  } else if (e.target.matches(".post")) {
-    getNutrientData();
-  }
-});
-
-// Function for adding a new Nutritional Information entry
-async function addNutrInfo() {
-  const inputs = [
-    "#food-name",
-    "#serving-size",
-    "#calories",
-    "#carbs",
-    "#fat",
-    "#protein",
-  ];
-  const values = inputs.map((input) =>
-    parseFloat(document.querySelector(input).value).toFixed(2)
-  );
-
-  if (values.every((val) => !isNaN(val) && val >= 0)) {
-    const response = await fetch("/api/nutrition", {
-      method: "POST",
-      body: JSON.stringify({
-        food_name: values[0],
-        serving_size: parseInt(values[1]),
-        calories: values[2],
-        carbohydrates: values[3],
-        fat: values[4],
-        protein: values[5],
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (response.ok) {
-      document.location.replace("/dashboard");
-    } else {
-      alert("Failed to create nutritional information");
-    }
-  } else {
-    alert(
-      "Please fill out all fields and make sure the values are positive numbers."
-    );
-  }
-}
-
-// Event listener for submit button on Add Nutritional Info form
-document.getElementById("add-info").addEventListener("submit", (event) => {
-  event.preventDefault();
-  addNutrInfo();
-});
-
-// Function to fetch Fitbit data
-async function getNutrientData() {
-  try {
-    const response = await fetch(
-      "https://api.fitbit.com/1/user/-/foods/log/date/2023-12-14/2023-12-20.json",
-      {
-        headers: {
-          //add token
-          Authorization: "Bearer <YOUR_FITBIT_ACCESS_TOKEN>",
-        },
-      }
-    );
-
-    if (response.ok) {
-      const nutrientData = await response.json();
-      console.log(nutrientData);
-
-      // Update the doughnut chart with new nutrient data
-      updateDoughnutChart(nutrientData);
-
-      // Add logic to update other elements on the page with the obtained nutrient data
-    } else {
-      console.error("Error fetching nutrient data:", response.statusText);
-    }
-  } catch (error) {
-    console.error("Error fetching nutrient data:", error);
-  }
-}
-
-// Function to submit meal data
-function submitMeal(mealType, time, foodItem, calories) {
-  const message = `Meal Information:\n\nTime: ${time}\nFood Item: ${foodItem}\nCalories: ${calories}\n${mealType}`;
-  console.log(message);
-
-  // Display the message in the meal history container
-  const mealHistoryContainer = document.querySelector(".meal-history");
-  const newMealEntry = document.createElement("div");
-  newMealEntry.textContent = message;
-  mealHistoryContainer.appendChild(newMealEntry);
-
-  // Update calorie intake and fetch Fitbit data
-  updateCalorieIntake(calories);
-  getNutrientData();
-}
-
-// Call the function to fetch and display nutrient data
-//   getNutrientData();
-
+// Meal Entry Section
 let currentGraph = "doughnut"; // Initial graph
 
 // Doughnut chart data
@@ -213,7 +101,6 @@ function openAndSubmitMeal(mealType) {
   // Call the submitMeal function with entered data
   submitMeal(mealType, time, foodItem, calories);
 }
-
 // Malfunction in code where user input is not logged. Currently only able to properly submit meal input via the openAndSubmitMeal() function.
 TODO: function submitMeal(mealType, time, foodItem, calories) {
   // Create a message with the meal information
@@ -228,9 +115,7 @@ TODO: function submitMeal(mealType, time, foodItem, calories) {
   newMealEntry.textContent = message;
   mealHistoryContainer.appendChild(newMealEntry);
 
-  // Update calorie intake and fetch Fitbit data
   updateCalorieIntake(calories);
-  getNutrientData();
 }
 
 //update  functionality of calorie logging to graph so that graph updates to new logged data
@@ -253,7 +138,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var waterwheelContainer = document.querySelector(".waterwheel-container");
   waterwheelContainer.style.width = "25vw";
 });
-
 let totalWaterIntake = 0;
 
 function addWater() {
@@ -277,13 +161,28 @@ function updateTotalWater() {
 }
 
 function updateDoughnutChart() {
-  // Extract relevant nutrient information from nutrientData
-  const caloriesConsumed = nutrientData.summary.calories;
-  const remainingCalories = 2000 - caloriesConsumed; // Assuming a daily goal of 2000 calories
+  const ctx = document.getElementById("waterChart").getContext("2d");
+  const data = {
+    labels: ["Consumed", "Remaining"],
+    datasets: [
+      {
+        data: [totalWaterIntake, 2000 - totalWaterIntake], // Assuming a daily goal of 2000 mL
+        backgroundColor: ["#36A2EB", "#FFCE56"],
+      },
+    ],
+  };
 
-  // Update doughnut chart data
-  doughnutData.datasets[0].data = [caloriesConsumed, remainingCalories];
+  const options = {
+    cutoutPercentage: 70,
+  };
 
-  // Update the doughnut chart
-  myChart.update();
+  if (window.myDoughnutChart) {
+    window.myDoughnutChart.destroy();
+  }
+
+  window.myDoughnutChart = new Chart(ctx, {
+    type: "doughnut",
+    data: data,
+    options: options,
+  });
 }
