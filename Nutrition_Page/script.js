@@ -162,7 +162,12 @@ function submitMeal() {
     updateMealHistoryAndCalorieIntake(nutrientDataGlobal);
   });
 }
-function updateMealHistoryAndCalorieIntake(nutrientDataGlobal) {
+function updateMealHistoryAndCalorieIntake(response) {
+  if (!response || !response.foods) {
+    console.error("Invalid response:", response);
+    return;
+  }
+
   // Update the user's meal history
   const mealHistory = document.querySelector("#meal-history");
   const cal = nutrientDataGlobal[0].foods[0].calories;
