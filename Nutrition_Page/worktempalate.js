@@ -110,22 +110,22 @@ async function getNutrientData(startDate, endDate) {
 }
 
 // GET REQUEST FOR SPECIFIC DATE
-async function getNutritionDataForDate(accessToken, date) {
-  const response = await fetch(
-    `https://api.fitbit.com/1/user/-/foods/log/date/${date}.json`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+// async function getNutritionDataForDate(accessToken, date) {
+//   const response = await fetch(
+//     `https://api.fitbit.com/1/user/-/foods/log/date/${date}.json`,
+//     {
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`,
+//       },
+//     }
+//   );
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
+//   if (!response.ok) {
+//     throw new Error(`HTTP error! status: ${response.status}`);
+//   }
 
-  return await response.json();
-}
+//   return await response.json();
+// }
 
 // GET REQUEST FOR SPECIFIC DATE WITH PAGINATION AND ERROR HANDLING
 async function getNutritionDataForDate(

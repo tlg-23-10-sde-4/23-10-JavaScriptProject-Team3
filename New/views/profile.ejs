@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <%- include('partials/head'); %>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Account Profile</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js" async defer></script>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
+    <header>
+      <%- include('partials/header'); %>
+
+    </header>
     <h1>
+
       Welcome to your profile
       <p><%= user.displayName %></p>
       <p><%= user.age %></p>
@@ -22,5 +27,34 @@
       <a href="/nutrition">Nutrition Page</a>
       <a href="/sleep">Sleep Page</a>
     </div>
+    <script>
+      fetch("./nav.html")
+        .then((res) => res.text())
+        .then((text) => {
+          let oldelem = document.querySelector("#replace_with_navbar");
+          let newelem = document.createElement("div");
+          newelem.innerHTML = text;
+          oldelem.parentNode.replaceChild(newelem, oldelem);
+        });
+
+      // Add an event listener to the button
+      document
+        .getElementById("toggleNav")
+        .addEventListener("click", function () {
+          // Get the navigation bar
+          let navbar = document.querySelector("nav");
+
+          // Toggle the display property
+          if (navbar.style.display === "none") {
+            navbar.style.display = "block";
+          } else {
+            navbar.style.display = "none";
+          }
+        });
+    </script>
+      <%- include('partials/footer'); %>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="./nav.js"></script>
   </body>
 </html>

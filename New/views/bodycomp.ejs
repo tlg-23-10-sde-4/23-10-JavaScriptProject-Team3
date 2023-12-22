@@ -13,11 +13,12 @@
   </head>
   <body>
     <header>
+      <%- include('partials/header'); %>
+    </header>
+    <div>
       <h1>My Fitness App</h1>
       <h1>Body Composition</h1>
       <a href="/profile">Profile Page</a>
-    </header>
-    <div>
       <canvas id="bmi-chart"></canvas>
     </div>
     <div>
@@ -61,13 +62,12 @@
         </ul>
       </div>
     </div>
-    <div></div>
     <div>
-      Body Fat % chart will be here
-      <button>This will be the menu button</button>
-    </div>
-    <div>
-      <button>Enter Data</button>
+      <form id="addWeightForm" action="/bodycomp" method="post">
+      <input id="addWeight" type="number" step="0.01" placeholder="Enter your weight 200.00"></input>
+      <input id="submitWeight" type="submit"></input>
+    </form>
+    <!-- TODO make toast notification with recently added data -->
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script
@@ -75,6 +75,8 @@
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
+    <%- include('partials/footer'); %>
+
     <script src="js/main.js"></script>
   </body>
 </html>
