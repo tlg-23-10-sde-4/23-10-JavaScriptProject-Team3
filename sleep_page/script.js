@@ -12,16 +12,17 @@ let iterator = 0;
 let dateArrayInterval = 30;
 const arrDates = fillDateArray(dateArrayInterval);
 const bearPhrase1 = "eyJhbGciOiJIUzI1NiJ9."
-const bearPhrase2 = "eyJhdWQiOiIyM1JRVDYiLCJzdWIiOiJCVjRNSlIiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd2VjZyB3c29jIHdhY3Qgd294eSB3dGVtIHd3ZWkgd2NmIHdzZXQgd3JlcyB3bG9jIiwiZXhwIjoxNzAzMjMzNzU4LCJpYXQiOjE3MDMyMDQ5NTh9."
-const bearPhrase3 = "6wGhf-"
-const bearPhrase4 = "3dd3vd37AgVpHqMS9srZvTbt9b9vu2UYbloQ0"
+const bearPhrase2 = "eyJhdWQiOiIyM1JRVDYiLCJzdWIiOiJCVjRNSlIiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd2VjZyB3c29jIHdhY3Qgd294eSB3dGVtIHd3ZWkgd2NmIHdzZXQgd2xvYyB3cmVzIiwiZXhwIjoxNzAzMjYzMjI2LCJpYXQiOjE3MDMyMzQ0MjZ9."
+const bearPhrase3 = "Enin4JGRVCFFHJqdGhuhsa6iyKpqwanbdixRpwgQ3ss"
+const bearPhrase4 = ""
 
 // Pointers to elements by id 
 const pointerLogSleepBtn = document.getElementById("log_Sleep_Btn")
 const ctx = document.getElementById("sleepChart");
-
+const submitForm = document.getElementById("log_Sleep_Submit");
+const chartContainer = document.getElementById("chart_Interval_Container");
 // function to change chart view based on button clicked
-chart_Interval_Container.addEventListener("click", (e) => {
+chartContainer.addEventListener("click", (e) => {
   if (e.target.id === "day_Btn") {
     if (dateArrayInterval === 1) {
       return;
@@ -119,25 +120,53 @@ getSleepData(dateArrayInterval);
 
 
 
-//function to enter sleep data manually
-log_Sleep_Form.addEventListener("click", (e) => {
-  // e.preventDefault();
-  if (classHidden.style.display === "none") {
-    classHidden.style.display = "block";
-  } else {
-    classHidden.style.display = "none"
+// function to hide the sleep log entry form
+// Later
+// log_Sleep_Btn.addEventListener("click", (e) => {
+//   // e.preventDefault();
+//   const hideMe = document.getElementById("log_Sleep_Form");
+//   console.log("log_Sleep_Btn clicked");
+//   if (hideMe.style.display === "none") {
+//     hideMe.style.display = "block";
+//   } else {
+//     hideMe.style.display = "none"
+//   }
+// })
+
+submitForm.addEventListener("click", (e) => {
+  e.preventDefault();
+  console.log("log_Sleep_Submit clicked");
+  // // Need to separate the date and time out of newSleepDate
+  const newSleepDate = document.getElementById("sleep_Date").value
+  const newSleepStartTime = document.getElementById("sleep_Time").value;
+  const newSleepDurationHrs = document.getElementById("sleep_Duration").value
+  const newSleepDurationMillis = newSleepDurationHrs * 60 * 60 * 1000;
+  // fetch (`https://api.fitbit.com/1.2/user/-/sleep.json?date=${newSleepDate}&startTime=${newSleepStartTime}&duration=${newSleepDurationMillis}`), {
+  //   method: "POST",
+  //   headers: {
+  //     "Authorization": `Bearer ${bearPhrase1}${bearPhrase2}${bearPhrase3}${bearPhrase4}`
+  //   }
+  postNewSleepLog(bearPhrase1, bearPhrase2, bearPhrase3, bearPhrase4, newSleepDate, newSleepStartTime, newSleepDurationMillis);
+
+  // }
+
+  // console.log("newSleepDate: " + newSleepDate + " newSleepStartTime: " + newSleepStartTime + " newSleepDurationHrs: " + newSleepDurationHrs);
+  // console.log("newSleepDurationMillis: " + newSleepDurationMillis);
+})
+async function postNewSleepLog(a, b, c, d, e, f, g) {
+  let headersList = {
+    "Accept": "*/*",
+    "Authorization": `Bearer ${a}${b}${c}${d}`
   }
-})
-
-log_Sleep_Submit.addEventListener("submit", (e) => {
-  // Need to separate the date and time out of newSleepDate
-  const newSleepDate = e.target.parent.children[0].children[0].children[0].value;
-  const newSleepDurationHrs = e.target.parent.children[0].children[1].children[0].value;
-  const newSleepDurationMins = newSleepDurationHrs * 60;
-  fetch ("https://api.fitbit.com/1.2/user/-/sleep.json?date=`${newSleepDate}`startTime=`${newSleepStartTime}`&duration=`${newSleepDurationMillis}`&")
-
-})
-
+  
+  let response = await fetch(`https://api.fitbit.com/1.2/user/-/sleep.json?date=${e}&startTime=${f}&duration=${g}`, { 
+    method: "POST",
+    headers: headersList
+  });
+  
+  let data = await response.text();
+  console.log(data);
+}
 
 // function to calculate average hours of sleep over the past week
 function calculateAvgSleep(array) {
@@ -161,8 +190,6 @@ function fillDateArray(dateArrayInterval) {
     thisArray.push(`${thisMonth}/${thisDate}`);
   }
   thisArray.reverse();
-  console.log(thisArray);
-  // thisArray.forEach((date) => console.log(`${date}, `));
   return thisArray;
 }
 
@@ -214,7 +241,6 @@ function fillSleepArray(obj) {
       arrayB.push(0);
     }
   }
-  // console.log(`arrayB: ${arrayB}`);
   return arrayB;
 }
 
