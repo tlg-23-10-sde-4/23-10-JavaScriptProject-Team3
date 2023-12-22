@@ -1,37 +1,74 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // Example: Add an event listener for a button click
-  const myButton = document.getElementById('myButton');
-  if (myButton) {
-    myButton.addEventListener('click', function () {
-      alert('Button clicked!');
-    });
-  }
+  const addWeightForm = document.getElementById('addWeightForm');
 
-  // Example: Make an AJAX request using Fetch API
-  const fetchDataButton = document.getElementById('fetchDataButton');
-  const dataContainer = document.getElementById('dataContainer');
+  if (addWeightForm) {
+    addWeightForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      console.log("Clicked submit button")
 
-  if (fetchDataButton && dataContainer) {
-    fetchDataButton.addEventListener('click', async function () {
+      const weightInput = document.getElementById('addWeight');
+      const weight = weightInput.value;
+
       try {
-        // Replace the URL with your actual API endpoint
-        const response = await fetch('/api/data');
-        const data = await response.json();
+        const response = await fetch('/bodycomp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json', 
+          },
+          body: JSON.stringify({ weight }),
+        });
 
-        // Display the fetched data in the container
-        dataContainer.innerHTML = JSON.stringify(data, null, 2);
+        if (response.ok) {
+          //TODO make this a toast notification
+          console.log('Weight data submitted successfully');
+          weightInput.textContent = '';
+          window.location.reload();
+        } else {
+          console.error('Error submitting weight data:', response.statusText);
+        }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error submitting weight data:', error);
       }
     });
   }
 });
-// handle listening for the button clicks
 
-document.querySelector('.weight_or_bmi').addEventListener('click', (event) => {
-  if (event.target.value === 'weight') {
-    getWeightData();
-  } else {
-    getBMIForWeek();
+document.addEventListener('DOMContentLoaded', function () {
+  const addFoodForm = document.getElementById('userInputForm');
+
+  if (addFoodForm) {
+    addFoodForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      console.log("Clicked submit button")
+
+      const foodInput = document.getElementById('foodItem').value;
+      const calories = document.getElementById('calories').value;
+      const mealTypeId = document.getElementById('mealTypeId').value;
+      const amount = document.getElementById('servingSize').value;
+
+      try {
+        const response = await fetch('/nutrition', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json', 
+          },
+          body: JSON.stringify({ foodInput, calories, mealTypeId, amount }),
+        });
+
+        if (response.ok) {
+          //TODO make this a toast notification
+          console.log('Food data submitted successfully');
+          foodInput.textContent = '';
+          calories.textContent = '';
+          mealTypeId.textContent = '';
+          amount.textContent = '';
+          window.location.reload();
+        } else {
+          console.error('Error submitting food data:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error submitting food data:', error);
+      }
+    });
   }
 });
