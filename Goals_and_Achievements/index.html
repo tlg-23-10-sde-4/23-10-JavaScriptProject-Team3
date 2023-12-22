@@ -3,24 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome ${profile_ID}</title>
-    <!-- create const var profile_ID that is derived from user input data-->
-    <script>
-      const profile_ID = "${profile_ID}";
-    </script>
-    <script src="script.js" async defer></script>
-
-    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+    <script src="./script.js" async defer></script>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <div id="replace_with_navbar"></div>
-    <!-- display welcome message with the value of profile_ID -->
-    <h1 id="welcomeMessage"></h1>
-
-    <!--Intertactive activity wheel of circles with direct link to other pages.
-    When clicked on a circle it will show information about that section in a box below.-->
-
-    <!--reference chris wheel of circle-->
+    <div>
+      <h1>My Fitness App</h1>
+    </div>
+    <div>
+      <h1>Goals and Achievements</h1>
+    </div>
+    <div>
+      <h1>Goals</h1>
+      <p>Here you can set your goals</p>
+      <button>Set Goals</button>
+      <ul>
+        List of goals
+      </ul>
+    </div>
+    <div>
+      <h1>Achievements</h1>
+      <p>Here you can see your achievements</p>
+      <button>See Achievements</button>
+      <ul>
+        List of achievements
+      </ul>
+    </div>
     <script>
       fetch("/New/public/nav.html")
         .then((res) => res.text())
