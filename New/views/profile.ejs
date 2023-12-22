@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Profile</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" async defer></script>
+  </head>
+  <body>
+    <h1>
+      Welcome to your profile
+      <p><%= user.displayName %></p>
+      <p><%= user.age %></p>
+      <p><%= user.height %></p>
+      <p><%= user.memberSince %></p>
+      <p><%= (user.weight *2.20462) %></p>
+    </h1>
+    <div>
+      <a href="/bodycomp">Body Composition Page</a>
+      <a href="/activities">Activities Page</a>
+      <a href="/nutrition">Nutrition Page</a>
+      <a href="/sleep">Sleep Page</a>
+    </div>
+  </body>
+</html>
