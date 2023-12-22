@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div id="replace_with_navbar"></div>
     <!-- display welcome message with the value of profile_ID -->
     <h1 id="welcomeMessage"></h1>
 
@@ -20,5 +21,32 @@
     When clicked on a circle it will show information about that section in a box below.-->
 
     <!--reference chris wheel of circle-->
+    <script>
+      fetch("/New/public/nav.html")
+        .then((res) => res.text())
+        .then((text) => {
+          let oldelem = document.querySelector("#replace_with_navbar");
+          let newelem = document.createElement("div");
+          newelem.innerHTML = text;
+          oldelem.parentNode.replaceChild(newelem, oldelem);
+        });
+
+      // Add an event listener to the button
+      document
+        .getElementById("toggleNav")
+        .addEventListener("click", function () {
+          // Get the navigation bar
+          let navbar = document.querySelector("nav");
+
+          // Toggle the display property
+          if (navbar.style.display === "none") {
+            navbar.style.display = "block";
+          } else {
+            navbar.style.display = "none";
+          }
+        });
+    </script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/New/public/js/nav.js"></script>
   </body>
 </html>
