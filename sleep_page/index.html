@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sleep</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js" async defer></script>
+
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./script.js" async defer></script>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -19,8 +19,8 @@
     <!-- Navigation bar placeholder -->
     <div id="replace_with_navbar"></div>
 
-    <script>
-      fetch("nav.html")
+    <!-- <script>
+      fetch("23-10-JavaScriptProject-Team3\New\public\nav.html")
         .then((res) => res.text())
         .then((text) => {
           let oldelem = document.querySelector("#replace_with_navbar");
@@ -28,7 +28,7 @@
           newelem.innerHTML = text;
           oldelem.parentNode.replaceChild(newelem, oldelem);
         });
-    </script>
+    </script> -->
 
     <header>
       <h1>My Fitness App</h1>
@@ -38,12 +38,13 @@
     </div>
     <div>
       <div>
-        <div class="graph-view-container">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <div id="chart_Interval_Container" class="graph-view-container">
           <button>This will be the graph menu</button>
           <div>
             <canvas id="sleepChart"></canvas>
           </div>
-          <ul id="chart_Interval_Container">
+          <ul>
             <li><button id="day_Btn">Day</button></li>
             <li><button id="week_Btn">Week</button></li>
             <li><button id="month_Btn">Month</button></li>
@@ -64,11 +65,15 @@
     <div>
       <button id="log_Sleep_Btn" type="button">Log New Sleep</button>
       <div class="sleep_form_container">
-        <form id="log_Sleep_Form" class="hidden">
+        <form id="log_Sleep_Form">
           <fieldset>
             <label for="date"
-              >When did you fall asleep?
-              <input id="sleep_Date" name="date" type="datetime-local" required
+              >Which day did you fall asleep?
+              <input id="sleep_Date" name="date" type="date"
+            /></label>
+            <label for="time"
+              >What time did you fall asleep?
+              <input id="sleep_Time" name="time" type="time"
             /></label>
             <label for="duration"
               >How long were you asleep (0-12)?
@@ -81,7 +86,6 @@
                 step="0.1"
                 value="7.5"
                 list="tick_Marks"
-                required
               />
               <datalist id="tick_Marks">
                 <option value="0"></option>
@@ -94,13 +98,13 @@
               </datalist>
             </label>
           </fieldset>
-          <button id="log_Sleep_Submit" type="submit" class="hidden">
+          <button id="log_Sleep_Submit" type="button">
             Submit New Sleep Log
           </button>
         </form>
       </div>
     </div>
-    <script>
+    <!-- <script>
       fetch("/New/public/nav.html")
         .then((res) => res.text())
         .then((text) => {
@@ -124,8 +128,8 @@
             navbar.style.display = "none";
           }
         });
-    </script>
-    <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="/New/public/js/nav.js"></script>
+    </script> -->
+    <!-- <script src="node_modules/jquery/dist/jquery.min.js"></script> -->
+    <!-- <script src="../New/public/js/nav.js"></script> -->
   </body>
 </html>
